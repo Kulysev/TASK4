@@ -1,0 +1,345 @@
+1.
+
+#include <iostream>
+#include <limits>
+
+int main() {
+    const int rows = 3;
+    const int cols = 3;
+    int array[rows][cols] = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+    int total_sum = 0;
+    int min_element = std::numeric_limits<int>::max();
+    int max_element = std::numeric_limits<int>::min();
+    int count = 0;
+
+    // Проходим по всем элементам массива
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            total_sum += array[i][j]; // Суммируем элементы
+            if (array[i][j] < min_element) {
+                min_element = array[i][j]; // Находим минимальный элемент
+            }
+            if (array[i][j] > max_element) {
+                max_element = array[i][j]; // Находим максимальный элемент
+            }
+            count++; 
+        }
+    }
+
+    // Вычисляем среднее арифметическое
+    double average = static_cast<double>(total_sum) / count;
+
+    std::cout << "Сумма всех элементов массива: " << total_sum << std::endl;
+    std::cout << "Среднее арифметическое всех элементов массива: " << average << std::endl;
+    std::cout << "Минимальный элемент: " << min_element << std::endl;
+    std::cout << "Максимальный элемент: " << max_element << std::endl;
+
+    return 0;
+}
+
+2.
+
+#include <iostream>
+#include <iomanip>
+
+int main() {
+    const int rows = 3;
+    const int cols = 4;
+    int array[rows][cols] = {
+        {3, 5, 6, 7},
+        {12, 1, 1, 1},
+        {0, 7, 12, 1}
+    };
+
+    int row_sums[rows] = {0}; // Массив для хранения суммы по строкам
+    int col_sums[cols] = {0}; // Массив для хранения суммы по столбцам
+    int total_sum = 0;        // Общая сумма
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            row_sums[i] += array[i][j]; // Сумма по строке
+            col_sums[j] += array[i][j]; // Сумма по столбцу
+            total_sum += array[i][j];    // Общая сумма
+        }
+    }
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            std::cout << std::setw(3) << array[i][j] << " "; 
+        }
+        std::cout << "| " << row_sums[i]; // Вывод суммы строки
+        std::cout << std::endl;
+    }
+
+    // Разделительная линия
+    std::cout << std::string(20, '-') << std::endl;
+
+    // Вывод сумм по столбцам
+    for (int j = 0; j < cols; ++j) {
+        std::cout << std::setw(3) << col_sums[j] << " "; 
+    }
+    std::cout << "| " << total_sum; 
+    std::cout << std::endl;
+
+    return 0;
+}
+
+3.
+
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+int main() {
+    const int rows1 = 5;
+    const int cols1 = 10;
+    const int rows2 = 5;
+    const int cols2 = 5;
+
+    int array1[rows1][cols1];
+    int array2[rows2][cols2];
+
+    // Инициализация генератора случайных чисел
+    std::srand(static_cast<unsigned int>(std::time(0)));
+
+    for (int i = 0; i < rows1; ++i) {
+        for (int j = 0; j < cols1; ++j) {
+            array1[i][j] = std::rand() % 51; 
+        }
+    }
+
+    for (int i = 0; i < rows2; ++i) {
+        array2[i][0] = array1[i][0] + array1[i][1]; 
+        array2[i][1] = array1[i][2] + array1[i][3]; 
+        array2[i][2] = array1[i][4] + array1[i][5]; 
+        array2[i][3] = array1[i][6] + array1[i][7]; 
+        array2[i][4] = array1[i][8] + array1[i][9]; 
+    }
+
+    std::cout << "Первый массив (5x10):" << std::endl;
+    for (int i = 0; i < rows1; ++i) {
+        for (int j = 0; j < cols1; ++j) {
+            std::cout << array1[i][j] << "\t"; 
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "\nВторой массив (5x5):" << std::endl;
+    for (int i = 0; i < rows2; ++i) {
+        for (int j = 0; j < cols2; ++j) {
+            std::cout << array2[i][j] << "\t"; 
+        }
+        std::cout << std::endl;
+    }
+
+    return 0;
+}
+
+4.
+
+#include <iostream>
+
+void insertionSort(int arr[], int size) {
+    for (int i = 1; i < size; ++i) {
+        int key = arr[i]; // Текущий элемент для вставки
+        int j = i - 1;
+
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key; // Вставляем текущий элемент на его место
+    }
+}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; ++i) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    const int size = 10; 
+    int arr[size] = {12, 11, 13, 5, 6, 7, 3, 9, 10, 2}; 
+
+    std::cout << "Исходный массив: ";
+    printArray(arr, size);
+
+    insertionSort(arr, size); // Сортировка массива методом вставок
+
+    std::cout << "Отсортированный массив: ";
+    printArray(arr, size);
+
+    return 0;
+}
+
+5.
+
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
+
+const int NUM_GRADES = 10;
+
+void printGrades(const double grades[], int size) {
+    std::cout << "Оценки студента: ";
+    for (int i = 0; i < size; ++i) {
+        std::cout << std::fixed << std::setprecision(1) << grades[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+double calculateAverage(const double grades[], int size) {
+    double sum = 0;
+    for (int i = 0; i < size; ++i) {
+        sum += grades[i];
+    }
+    return sum / size;
+}
+
+bool isScholarship(double average) {
+    return average >= 4.5;
+}
+
+int main() {
+    double grades[NUM_GRADES];
+
+    std::srand(static_cast<unsigned int>(std::time(0)));
+
+    // Генерация случайных оценок от 1 до 5
+    for (int i = 0; i < NUM_GRADES; ++i) {
+        grades[i] = 1 + static_cast<double>(std::rand() % 50) / 10; // Генерация оценок от 1.0 до 5.0
+    }
+
+    printGrades(grades, NUM_GRADES);
+
+    // Проверка на стипендию
+    double average = calculateAverage(grades, NUM_GRADES);
+    std::cout << "Средний балл: " << std::fixed << std::setprecision(1) << average << std::endl;
+
+    if (isScholarship(average)) {
+        std::cout << "Студент выходит на стипендию." << std::endl;
+    } else {
+        std::cout << "Студент не выходит на стипендию." << std::endl;
+    }
+
+    // Определение, кто сдал, а кто завалил
+    std::cout << "Результаты:" << std::endl;
+    for (int i = 0; i < NUM_GRADES; ++i) {
+        if (grades[i] >= 3.0) {
+            std::cout << "Оценка " << std::fixed << std::setprecision(1) << grades[i] << ": Сдал" << std::endl;
+        } else {
+            std::cout << "Оценка " << std::fixed << std::setprecision(1) << grades[i] << ": Завалил" << std::endl;
+        }
+    }
+
+    std::cout << "Оценки для пересдачи (ниже 3.0): ";
+    for (int i = 0; i < NUM_GRADES; ++i) {
+        if (grades[i] < 3.0) {
+            std::cout << std::fixed << std::setprecision(1) << grades[i] << " ";
+        }
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+6.
+
+#include <iostream>
+#include <vector>
+
+void quickSort(std::vector<int>& arr, int low, int high);
+int partition(std::vector<int>& arr, int low, int high);
+void printArray(const std::vector<int>& arr);
+
+int main() {
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+
+    std::cout << "Исходный массив: ";
+    printArray(arr);
+
+    quickSort(arr, 0, arr.size() - 1);
+
+    std::cout << "Отсортированный массив: ";
+    printArray(arr);
+
+    return 0;
+}
+
+void quickSort(std::vector<int>& arr, int low, int high) {
+    if (low < high) {
+        // Разделение массива и получение индекса опорного элемента
+        int pivotIndex = partition(arr, low, high);
+        
+        // Рекурсивная сортировка элементов до и после опорного элемента
+        quickSort(arr, low, pivotIndex - 1);
+        quickSort(arr, pivotIndex + 1, high);
+    }
+}
+
+int partition(std::vector<int>& arr, int low, int high) {
+    int pivot = arr[high]; 
+    int i = low - 1; 
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++; 
+            std::swap(arr[i], arr[j]);
+        }
+    }
+    std::swap(arr[i + 1], arr[high]); 
+    return i + 1; 
+}
+
+void printArray(const std::vector<int>& arr) {
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+}
+
+7.
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> arr = {3, -1, 4, 1, 5, -9, 2, 6, 5, 3, 5};
+
+    double sum = 0;
+    for (int num : arr) {
+        sum += num;
+    }
+    double average = sum / arr.size();
+
+    size_t n = arr.size();
+    size_t firstThird = n / 3;
+    size_t twoThirds = 2 * n / 3;
+
+    if (average > 0) {
+        // Сортируем первые две трети массива
+        std::sort(arr.begin(), arr.begin() + twoThirds);
+    } else {
+        // Сортируем только первую треть массива
+        std::sort(arr.begin(), arr.begin() + firstThird);
+    }
+
+    std::reverse(arr.begin() + twoThirds, arr.end());
+
+    std::cout << "Результат: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
